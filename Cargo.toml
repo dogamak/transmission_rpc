@@ -1,0 +1,11 @@
+[package]
+name = "transmission"
+version = "0.1.0"
+authors = ["Mitja Karhusaari <monttu300@gmail.com>"]
+
+[dependencies]
+hyper = "*"
+serde = "*"
+serde_json = "*"
+serde_macros = "*"
+rustc-serialize = "*"
