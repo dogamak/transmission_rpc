@@ -1,5 +1,5 @@
 [package]
-name = "transmission"
+name = "transmission_rpc"
 version = "0.1.0"
 authors = ["Mitja Karhusaari <monttu300@gmail.com>"]
 licence = "MIT"
