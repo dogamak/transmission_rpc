@@ -19,6 +19,7 @@ mod tests;
 
 pub use self::torrent::Torrent;
 pub use self::field::Field;
+pub use self::priority::Priority;
 
 use error::{Error, Result, DaemonError};
 use hyper::{Url, Client};

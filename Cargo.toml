@@ -2,10 +2,14 @@
 name = "transmission"
 version = "0.1.0"
 authors = ["Mitja Karhusaari <monttu300@gmail.com>"]
+licence = "MIT"
+repository = "http://github.com/theMonttu/transmission_rpc"
+readme = "README.md"
+description = "A strongly typed RPC library for Transmission Daemon."
 
 [dependencies]
-hyper = "*"
-serde = "*"
-serde_json = "*"
-serde_macros = "*"
-rustc-serialize = "*"
+hyper = "0.9.10"
+serde = "0.8.4"
+serde_json = "0.8.1"
+serde_macros = "0.8.4"
+rustc-serialize = "0.3.19"
