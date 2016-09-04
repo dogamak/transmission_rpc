@@ -1,7 +1,9 @@
 use std::fmt;
 use serde::{Serialize, Serializer};
 
-/// A enum of all the fields of the `Torrent` struct. Please see https://trac.transmissionbt.com/browser/branches/1.7x/doc/rpc-spec.txt for information about these fields.
+/// A enum of all the names of fields in the `Torrent` struct.
+/// Please see https://trac.transmissionbt.com/browser/branches/1.7x/doc/rpc-spec.txt
+/// for additional information.
 #[derive(Clone)]
 #[allow(dead_code)]
 pub enum Field {
@@ -79,7 +81,7 @@ pub enum Field {
 }
 
 impl Field {
-    /// A convinience function that returns a list of all fields.
+    /// A convinience function that returns a list with every field.
     fn all() -> Vec<Field> {
         vec![
             Field::ActivityDate,

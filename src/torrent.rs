@@ -1,5 +1,8 @@
+use priority::Priority;
+
 /// A struct to hold the torrent information returned from the daemon.
 /// Not all fields are usually populated.
+
 #[derive(Deserialize, Clone, Debug)]
 pub struct Torrent {
     #[serde(rename="activityDate")]
@@ -11,7 +14,7 @@ pub struct Torrent {
     #[serde(rename="announceUrl")]
     pub announce_url: Option<String>,
     #[serde(rename="bandwidthPriority")]
-    pub bandwidth_priority: Option<u32>,
+    pub bandwidth_priority: Option<Priority>,
     pub comment: Option<String>,
     #[serde(rename="corruptEver")]
     pub corrupt_ever: Option<u32>,
@@ -191,8 +194,6 @@ pub struct Tracker {
     pub scrape: String,
     pub tier: usize
 }
-
-pub type Priority = u32;
 
 impl Torrent {
     /// Creates an instace of `Torrent` where all fields are set to `None`

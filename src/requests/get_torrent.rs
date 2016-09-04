@@ -8,7 +8,7 @@ use super::Request;
 pub struct GetTorrent {
     #[serde(rename="ids", skip_serializing_if="Vec::is_empty")]
     _ids: Vec<u32>,
-    #[serde(rename="fields")]
+    #[serde(rename="fields", skip_serializing_if="Vec::is_empty")]
     _fields: Vec<Field>
 }
 

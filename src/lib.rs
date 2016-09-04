@@ -8,10 +8,14 @@ extern crate serde_json;
 extern crate rustc_serialize;
 
 pub mod error;
+pub mod priority;
 pub mod requests;
 pub mod responses;
 mod torrent;
 mod field;
+
+#[cfg(test)]
+mod tests;
 
 pub use self::torrent::Torrent;
 pub use self::field::Field;
@@ -26,9 +30,10 @@ use requests::Request;
 use responses::Response;
 use serde::Deserialize;
 use serde_json::Value;
+use priority::Priority;
 
 /// A struct that represents the connection to the Transmission daemon.
-struct Transmission {
+pub struct Transmission {
     client:  Client,
     auth:    Option<Basic>,
     session: Option<String>,
@@ -38,7 +43,7 @@ struct Transmission {
 
 impl Transmission {
     /// Create a new instance of `Transmission` using the default url
-    /// `http://127.0.0.1:9091/transmission/rpc` and no authentication
+    /// `http://127.0.0.1:9091/transmission/rpc` and no authentication.
     pub fn new() -> Transmission {
         Transmission {
             client:  Client::new(),
@@ -50,13 +55,13 @@ impl Transmission {
     }
 
     /// Sets the url used to connect the daemon for future requests
-    pub fn set_url(mut self, url: Url) -> Self {
-        self.url = url;
+    pub fn set_url<U>(&mut self, url: U) -> &mut Self where Url: From<U> {
+        self.url = Url::from(url) ;
         self
     }
 
     /// Sets the credinteals to be used in future requests
-    pub fn set_auth(mut self, username: String, password: String) -> Self {
+    pub fn set_auth(&mut self, username: String, password: String) -> &mut Self {
         self.auth = Some(Basic{
             username: username,
             password: Some(password)
@@ -81,8 +86,7 @@ impl Transmission {
         headers
     }
 
-    /// Sends the given request to the daemon and returns either the
-    /// response from the daemon or an error
+    /// Sends given request to the daemon and returns the received response.
     pub fn send<R>(&mut self, mut request: &R) -> Result<R::Response>
         where R: Request, R::Response: Response
     {    
@@ -94,10 +98,10 @@ impl Transmission {
             .send());
 
         // X-Transmission-Session-Id HTTP header must be set to correct value for the
-        // daemon to accept the request. The daemon returns the correct value for the
+        // daemon to accept the request. The daemon returns the wanted value for the
         // header on every response and changes that value from time to time.
-        // HTTP status code 901 or `Conflict` means that we passed no or an invalid
-        // session id.
+        // HTTP status code 901 or `Conflict` means that the daemon received an invalid
+        // or no session id.
         if response.status == StatusCode::Conflict {
             // Get the correct session id from the response. 
             self.session = Some(String::from_utf8(response.headers.get_raw("X-Transmission-Session-Id").unwrap()[0].clone()).unwrap());
@@ -110,7 +114,7 @@ impl Transmission {
         }
 
         // If the daemon responded with status other than 200 return an error.
-        // Return also if the second try with the new session id failed too.
+        // Return also if the second try with the new session id failed.
         if response.status != StatusCode::Ok {
             return Err(Error::Daemon(DaemonError::StatusCode(response.status)));
         }
@@ -126,31 +130,5 @@ impl Transmission {
         
         let args = obj.get("arguments").unwrap();
         Ok(try!(R::Response::from_value(args.clone())))
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::Transmission;
-    use requests::{GetTorrent, AddTorrent};
-    use field::Field;
-    
-    #[test]
-    fn test() {
-        let mut tr = Transmission::new()
-            .set_auth("flcllcl".to_string(), "OpenRoad".to_string());
-
-        let res = tr.send(&GetTorrent::new()
-                          .field(Field::Name)
-                          .field(Field::PercentDone)
-                          .field(Field::Files));
-
-        for torrent in res.unwrap() {
-            println!("{}: {}", torrent.name.unwrap(), torrent.percent_done.unwrap());
-        }
-
-        let res = tr.send(&AddTorrent::from_file("/home/flcllcl/Lataukset/[HorribleSubs] Kabaneri of the Iron Fortress - 07 [480p].mkv.torrent").unwrap());
-
-        println!("{:?}", res);
     }
 }

@@ -11,6 +11,8 @@ pub struct GetTorrent {
 impl IntoIterator for GetTorrent {
     type Item = Torrent;
     type IntoIter = vec::IntoIter<Torrent>;
+
+    /// Returns an iterator over received torrents.
     fn into_iter(self) -> vec::IntoIter<Torrent> {
         self.torrents.into_iter()
     }

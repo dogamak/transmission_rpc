@@ -13,7 +13,8 @@ pub struct AddTorrent {
     pub name: String,
     /// The hash string of the torrent
     pub hash_string: String,
-    /// Wether a new torrent was created or the torrent already existed
+    /// If true, the damon already had the torrent and did not create duplicate intance of
+    /// it but instead sent us the old torrent's information.
     pub was_duplicate: bool
 }
 
@@ -49,11 +50,11 @@ impl Response for AddTorrent {
                           .ok_or(Error::InvalidType("number".to_string(), "id".to_string())))),
             name: try!(info.get("name")
                        .ok_or(Error::MissingField("name".to_string()))
-                       .and_then(|v| v.as_string()
+                       .and_then(|v| v.as_str()
                                  .ok_or(Error::InvalidType("string".to_string(), "name".to_string())))).to_string(),
             hash_string: try!(info.get("hashString")
                               .ok_or(Error::MissingField("hashString".to_string()))
-                              .and_then(|v| v.as_string()
+                              .and_then(|v| v.as_str()
                                         .ok_or(Error::InvalidType("string".to_string(), "hashString".to_string())))).to_string()
         })
     }
