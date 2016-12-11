@@ -8,8 +8,8 @@ readme = "README.md"
 description = "A strongly typed RPC library for Transmission Daemon."
 
 [dependencies]
-hyper = "0.9.10"
-serde = "0.8.4"
-serde_json = "0.8.1"
-serde_macros = "0.8.4"
-rustc-serialize = "0.3.19"
+hyper = "*"
+serde = "*"
+serde_json = "*"
+serde_derive = "*"
+rustc-serialize = "*"

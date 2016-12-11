@@ -1,10 +1,12 @@
-#![feature(custom_derive, custom_attribute, plugin, associated_consts)]
-#![plugin(serde_macros)]
+#![feature(proc_macro, custom_derive, custom_attribute, plugin, associated_consts)]
 
 extern crate hyper;
-extern crate serde;
+
+#[macro_use]
+extern crate serde_derive;
 extern crate serde_json;
-#[macro_use] extern crate serde_macros;
+extern crate serde;
+
 extern crate rustc_serialize;
 
 pub mod error;
@@ -31,7 +33,6 @@ use requests::Request;
 use responses::Response;
 use serde::Deserialize;
 use serde_json::Value;
-use priority::Priority;
 
 /// A struct that represents the connection to the Transmission daemon.
 pub struct Transmission {
