@@ -1,5 +1,3 @@
-use torrent::Torrent;
-use field::Field;
 use std::collections::BTreeMap;
 use priority::Priority;
 use serde_json::Value;
@@ -64,7 +62,7 @@ pub struct TorrentSetResponse;
 
 impl Request for TorrentSet {
     type Response = TorrentSetResponse;
-    const Name: &'static str = "torrent-set";
+    const NAME: &'static str = "torrent-set";
 
     fn arguments(&self) -> Value {
         Value::Object({

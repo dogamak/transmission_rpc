@@ -84,5 +84,5 @@ impl AddTorrent {
 
 impl Request for AddTorrent {
     type Response = AddTorrentResponse;
-    const Name: &'static str = "torrent-add";
+    const NAME: &'static str = "torrent-add";
 }

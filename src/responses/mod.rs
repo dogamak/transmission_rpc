@@ -4,7 +4,6 @@ mod add_torrent;
 pub use self::get_torrent::GetTorrent;
 pub use self::add_torrent::AddTorrent;
 
-use std::collections::HashMap;
 use serde_json::{self, Value};
 use serde::Deserialize;
 use error::deserialize::*;

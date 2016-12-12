@@ -13,7 +13,7 @@ use std::collections::BTreeMap;
 /// A trait representing a request sent to the daemon.
 pub trait Request: Serialize {
     type Response;
-    const Name: &'static str;
+    const NAME: &'static str;
 
     fn arguments(&self) -> Value {
         serde_json::to_value(self)
@@ -22,7 +22,7 @@ pub trait Request: Serialize {
     fn to_value(&self) -> Value {
         Value::Object({
             let mut obj = BTreeMap::new();
-            obj.insert("method".to_string(), Value::String(Self::Name.to_string()));
+            obj.insert("method".to_string(), Value::String(Self::NAME.to_string()));
             obj.insert("arguments".to_string(), self.arguments());
             obj
         })

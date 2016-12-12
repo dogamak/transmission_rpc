@@ -1,5 +1,5 @@
 use super::create_transmission;
-use std::io::{self, Write, Cursor};
+use std::io::Cursor;
 use requests::AddTorrent;
 
 #[test]

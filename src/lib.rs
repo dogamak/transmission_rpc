@@ -29,13 +29,11 @@ pub use self::priority::Priority;
 
 use error::*;
 use hyper::{Url, Client};
-use hyper::client::Body;
 use hyper::status::StatusCode;
 use hyper::header::{ContentType, Headers, Authorization, Basic};
 use hyper::mime::{Mime, TopLevel, SubLevel, self};
 use requests::Request;
 use responses::Response;
-use serde::Deserialize;
 use serde_json::Value;
 
 /// A struct that represents the connection to the Transmission daemon.
@@ -93,7 +91,7 @@ impl Transmission {
     }
 
     /// Sends given request to the daemon and returns the received response.
-    pub fn send<R>(&mut self, mut request: &R) -> Result<R::Response>
+    pub fn send<R>(&mut self, request: &R) -> Result<R::Response>
         where R: Request, R::Response: Response
     {    
         let req_str = serde_json::to_string(&request.to_value())

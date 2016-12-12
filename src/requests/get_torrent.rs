@@ -1,4 +1,3 @@
-use torrent::Torrent;
 use field::Field;
 use responses::GetTorrent as GetTorrentResponse;
 use super::Request;
@@ -50,5 +49,5 @@ impl GetTorrent {
 
 impl Request for GetTorrent {
     type Response = GetTorrentResponse;
-    const Name: &'static str = "torrent-get";
+    const NAME: &'static str = "torrent-get";
 }

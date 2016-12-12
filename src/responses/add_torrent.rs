@@ -1,8 +1,6 @@
 use super::Response;
 use error::deserialize::*;
 use serde_json::Value;
-use serde_json;
-use serde::{self, Error as SerdeError};
 
 /// A response to the request `AddTorrent`.
 #[derive(Debug)]
@@ -23,7 +21,7 @@ impl Response for AddTorrent {
         let obj = value.as_object().unwrap();
 
         let mut was_duplicate = false;
-        let mut info: Value;
+        let info: Value;
         if let Some(i) = obj.get("torrent-added") {
             info = i.clone();
         } else if let Some(i) = obj.get("torrent-duplicate") {
