@@ -8,6 +8,7 @@ readme = "README.md"
 description = "A strongly typed RPC library for Transmission Daemon."
 
 [dependencies]
+error-chain = { git = "https://github.com/brson/error-chain.git" }
 hyper = "*"
 serde = "*"
 serde_json = "*"

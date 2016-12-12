@@ -1,5 +1,9 @@
 #![feature(proc_macro, custom_derive, custom_attribute, plugin, associated_consts)]
 
+#![recursion_limit = "1024"]
+
+#[macro_use]
+extern crate error_chain;
 extern crate hyper;
 
 #[macro_use]
@@ -23,7 +27,7 @@ pub use self::torrent::Torrent;
 pub use self::field::Field;
 pub use self::priority::Priority;
 
-use error::{Error, Result, DaemonError};
+use error::*;
 use hyper::{Url, Client};
 use hyper::client::Body;
 use hyper::status::StatusCode;
@@ -92,7 +96,8 @@ impl Transmission {
     pub fn send<R>(&mut self, mut request: &R) -> Result<R::Response>
         where R: Request, R::Response: Response
     {    
-        let req_str = try!(serde_json::to_string(&request.to_value()));
+        let req_str = serde_json::to_string(&request.to_value())
+            .map_err(|e| ::error::deserialize::Error::from(e))?;
 
         let mut response = try!(self.client.post(self.url.clone())
             .headers(self.headers())
@@ -118,19 +123,20 @@ impl Transmission {
         // If the daemon responded with status other than 200 return an error.
         // Return also if the second try with the new session id failed.
         if response.status != StatusCode::Ok {
-            return Err(Error::Daemon(DaemonError::StatusCode(response.status)));
+            bail!(::error::ErrorKind::Daemon(::error::daemon::ErrorKind::StatusCode(response.status)));
         }
         
-        let value: Value = try!(serde_json::from_reader(&mut response));
+        let value: Value = serde_json::from_reader(&mut response)
+            .map_err(|e| ::error::ErrorKind::Deserialize(::error::deserialize::ErrorKind::Json(e)))?;
         let obj = value.as_object().unwrap();
 
         if let Some(&Value::String(ref result)) = obj.get("result") {
             if result != &"success".to_string() {
-                return Err(Error::Daemon(DaemonError::Result(result.clone())));
+                bail!(ErrorKind::Daemon(::error::daemon::ErrorKind::Message(result.clone())));
             }
         }
         
         let args = obj.get("arguments").unwrap();
-        Ok(try!(R::Response::from_value(args.clone())))
+        Ok(R::Response::from_value(args.clone())?)
     }
 }
