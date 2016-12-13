@@ -1,9 +1,9 @@
 use std::collections::BTreeMap;
-use priority::Priority;
+use types::Priority;
 use serde_json::Value;
-use super::Request;
+use super::{Request, RequestArguments};
 
-#[derive(Serialize, Clone)]
+#[derive(Clone)]
 pub struct TorrentSet {
     _ids: Vec<u64>,
     _fields: BTreeMap<String, Value>,
@@ -62,8 +62,11 @@ pub struct TorrentSetResponse;
 
 impl Request for TorrentSet {
     type Response = TorrentSetResponse;
-    const NAME: &'static str = "torrent-set";
 
+    fn method_name(&self) -> &'static str { "torrent-set" }
+}
+
+impl RequestArguments for TorrentSet {
     fn arguments(&self) -> Value {
         Value::Object({
             let mut obj = self._fields.clone();

@@ -4,6 +4,9 @@ pub mod add_torrent;
 #[cfg(test)]
 pub mod get_torrent;
 
+#[cfg(test)]
+pub mod torrent_action;
+
 use super::Transmission;
 use hyper::Url;
 

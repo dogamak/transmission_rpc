@@ -9,12 +9,15 @@ fn get_all() {
     // Fetch the values of one specific value for all torrents.
     let req = GetTorrent::new()
         .field(Field::Id)
-        .field(Field::Name);
+        .field(Field::Name)
+        .field(Field::AddedDate);
 
     let res = tr.send(&req).expect("Error while communicating with the server.");
 
     let first = res.into_iter().next().expect("No torrents returned by the server!");
 
+    println!("{}", first.added_date.unwrap());
+    
     assert!(first.id.is_some());
     assert!(first.name.is_some());
     

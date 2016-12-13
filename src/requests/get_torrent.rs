@@ -49,5 +49,5 @@ impl GetTorrent {
 
 impl Request for GetTorrent {
     type Response = GetTorrentResponse;
-    const NAME: &'static str = "torrent-get";
+    fn method_name(&self) -> &'static str { "torrent-get" }
 }

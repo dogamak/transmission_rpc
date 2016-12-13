@@ -1,14 +1,15 @@
-use priority::Priority;
+use types::{Status, Priority};
+use chrono::NaiveDateTime;
+use ::types::time_t::deserialize_time_t_option;
 
 /// A struct to hold the torrent information returned from the daemon.
 /// Not all fields are usually populated.
-
 #[derive(Deserialize, Clone, Debug)]
 pub struct Torrent {
-    #[serde(rename="activityDate")]
-    pub activity_date: Option<u32>,
-    #[serde(rename="addedDate")]
-    pub added_date: Option<u32>,
+    #[serde(rename="activityDate", deserialize_with="deserialize_time_t_option", default)]
+    pub activity_date: Option<NaiveDateTime>, //time_t
+    #[serde(rename="addedDate", deserialize_with="deserialize_time_t_option", default)]
+    pub added_date: Option<NaiveDateTime>, //time_t
     #[serde(rename="announceResponse")]
     pub announce_response: Option<String>,
     #[serde(rename="announceUrl")]
@@ -17,110 +18,110 @@ pub struct Torrent {
     pub bandwidth_priority: Option<Priority>,
     pub comment: Option<String>,
     #[serde(rename="corruptEver")]
-    pub corrupt_ever: Option<u32>,
+    pub corrupt_ever: Option<u64>,
     pub creator: Option<String>,
-    #[serde(rename="dateCreated")]
-    pub date_created: Option<u32>,
+    #[serde(rename="dateCreated", deserialize_with="deserialize_time_t_option", default)]
+    pub date_created: Option<NaiveDateTime>, //time_t
     #[serde(rename="desiredAvailable")]
-    pub desired_available: Option<u32>,
-    #[serde(rename="doneDate")]
-    pub done_date: Option<u32>,
+    pub desired_available: Option<u64>,
+    #[serde(rename="doneDate", deserialize_with="deserialize_time_t_option", default)]
+    pub done_date: Option<NaiveDateTime>, //time_t
     #[serde(rename="downloadDir")]
     pub download_dir: Option<String>,
     #[serde(rename="downloadedEver")]
-    pub downloaded_ever: Option<u32>,
-    pub downloaders: Option<u32>,
+    pub downloaded_ever: Option<u64>,
+    pub downloaders: Option<u64>,
     #[serde(rename="downloadLimit")]
-    pub download_limit: Option<u32>,
+    pub download_limit: Option<u64>,
     #[serde(rename="downloadLimited")]
     pub download_limited: Option<bool>,
-    pub error: Option<u32>,
+    pub error: Option<u64>,
     #[serde(rename="errorString")]
     pub error_string: Option<String>,
-    pub eta: Option<u32>,
+    pub eta: Option<NaiveDateTime>, //time_t
     pub files: Option<Vec<File>>,
     pub file_stats: Option<Vec<FileStat>>,
     #[serde(rename="hashString")]
     pub hash_string: Option<String>,
     #[serde(rename="haveUnchecked")]
-    pub have_unchecked: Option<u32>,
+    pub have_unchecked: Option<u64>,
     #[serde(rename="haveValid")]
-    pub have_valid: Option<u32>,
+    pub have_valid: Option<u64>,
     #[serde(rename="honorsSessionLimits")]
     pub honors_session_limits: Option<bool>,
-    pub id: Option<u32>,
+    pub id: Option<u64>,
     #[serde(rename="isPrivate")]
     pub is_private: Option<bool>,
-    #[serde(rename="lastAnnounceTime")]
-    pub last_announce_time: Option<u32>,
+    #[serde(rename="lastAnnounceTime", deserialize_with="deserialize_time_t_option", default)]
+    pub last_announce_time: Option<NaiveDateTime>, //time_t
     #[serde(rename="lastScrapeTime")]
-    pub last_scrape_time: Option<u32>,
-    pub leechers: Option<u32>,
+    pub last_scrape_time: Option<u64>,
+    pub leechers: Option<u64>,
     #[serde(rename="leftUntilDone")]
-    pub left_until_done: Option<u32>,
-    #[serde(rename="manualAnnounceTime")]
-    pub manual_announce_time: Option<u32>,
+    pub left_until_done: Option<u64>,
+    #[serde(rename="manualAnnounceTime", deserialize_with="deserialize_time_t_option", default)]
+    pub manual_announce_time: Option<NaiveDateTime>, //time_t
     #[serde(rename="maxConnectedPeers")]
-    pub max_connected_peers: Option<u32>,
+    pub max_connected_peers: Option<u64>,
     pub name: Option<String>,
-    #[serde(rename="nextAnnounceTime")]
-    pub next_announce_time: Option<u32>,
-    #[serde(rename="nextScrapeTime")]
-    pub next_scrape_time: Option<u32>,
+    #[serde(rename="nextAnnounceTime", deserialize_with="deserialize_time_t_option", default)]
+    pub next_announce_time: Option<NaiveDateTime>, //time_t
+    #[serde(rename="nextScrapeTime", deserialize_with="deserialize_time_t_option", default)]
+    pub next_scrape_time: Option<NaiveDateTime>, //time_t
     #[serde(rename="peerLimit")]
-    pub peer_limit: Option<u32>,
+    pub peer_limit: Option<u64>,
     pub peers: Option<Vec<Peer>>,
     #[serde(rename="peersConnected")]
-    pub peers_connected: Option<u32>,
+    pub peers_connected: Option<u64>,
     #[serde(rename="peersFrom")]
     pub peers_from: Option<PeersFrom>,
     #[serde(rename="peersGettingFromUs")]
-    pub peers_getting_from_us: Option<u32>,
+    pub peers_getting_from_us: Option<u64>,
     #[serde(rename="peersKnown")]
-    pub peers_known: Option<u32>,
+    pub peers_known: Option<u64>,
     #[serde(rename="peersSendingToUs")]
-    pub peers_sending_to_us: Option<u32>,
+    pub peers_sending_to_us: Option<u64>,
     #[serde(rename="percentDone")]
     pub percent_done: Option<f64>,
     pub pieces: Option<String>,
     #[serde(rename="pieceCount")]
-    pub piece_count: Option<u32>,
+    pub piece_count: Option<u64>,
     #[serde(rename="pieceSize")]
-    pub piece_size: Option<u32>,
+    pub piece_size: Option<u64>,
     pub priorities: Option<Vec<Priority>>,
     #[serde(rename="rateDownload")]
-    pub rate_download: Option<u32>,
+    pub rate_download: Option<u64>,
     #[serde(rename="rateUpload")]
-    pub rate_upload: Option<u32>,
+    pub rate_upload: Option<u64>,
     #[serde(rename="recheckProgress")]
     pub recheck_progress: Option<f64>,
     #[serde(rename="scrapeResponse")]
     pub scrape_response: Option<String>,
     #[serde(rename="scrapeUrl")]
     pub scrape_url: Option<String>,
-    pub seeders: Option<u32>,
+    pub seeders: Option<u64>,
     #[serde(rename="seedRatioLimit")]
     pub seed_ratio_limit: Option<f64>,
     #[serde(rename="seedRatioMode")]
-    pub seed_ratio_mode: Option<u32>,
+    pub seed_ratio_mode: Option<u64>,
     #[serde(rename="sizeWhenDone")]
-    pub size_when_done: Option<u32>,
-    #[serde(rename="startDate")]
-    pub start_date: Option<u32>,
-    pub status: Option<u32>,
+    pub size_when_done: Option<u64>,
+    #[serde(rename="startDate", deserialize_with="deserialize_time_t_option", default)]
+    pub start_date: Option<NaiveDateTime>, //time_t
+    pub status: Option<Status>,
     #[serde(rename="swarmSpeed")]
-    pub swarm_speed: Option<u32>,
+    pub swarm_speed: Option<u64>,
     #[serde(rename="timesCompleted")]
-    pub times_completed: Option<u32>,
+    pub times_completed: Option<u64>,
     pub trackers: Option<Vec<Tracker>>,
     #[serde(rename="totalSize")]
-    pub total_size: Option<u32>,
+    pub total_size: Option<u64>,
     #[serde(rename="torrentFile")]
     pub torrent_file: Option<String>,
     #[serde(rename="uploadedEver")]
-    pub uploaded_ever: Option<u32>,
+    pub uploaded_ever: Option<u64>,
     #[serde(rename="uploadLimit")]
-    pub upload_limit: Option<u32>,
+    pub upload_limit: Option<u64>,
     #[serde(rename="uploadLimited")]
     pub upload_limited: Option<bool>,
     #[serde(rename="uploadRatio")]
@@ -128,9 +129,10 @@ pub struct Torrent {
     pub wanted: Option<Vec<bool>>,
     pub webseeds: Option<Vec<String>>,
     #[serde(rename="webseedsSendingToUs")]
-    pub webseeds_sending_to_us: Option<u32>,
+    pub webseeds_sending_to_us: Option<u64>,
 }
 
+/// Contains information about a file on the disk.
 #[derive(Deserialize, Clone, Debug)]
 pub struct File {
     #[serde(rename="bytesCompleted")]
@@ -139,6 +141,7 @@ pub struct File {
     pub name: String
 }
 
+/// Contains information about transmission's state regarding a file.
 #[derive(Deserialize, Clone, Debug)]
 pub struct FileStat {
     #[serde(rename="bytesCompleted")]
@@ -147,6 +150,7 @@ pub struct FileStat {
     pub priority: Priority,
 }
 
+/// Contains information about BitTorrent peer.
 #[derive(Deserialize, Clone, Debug)]
 pub struct Peer {
     pub address: String,
@@ -176,6 +180,7 @@ pub struct Peer {
     pub rate_to_peer: usize
 }
 
+/// Contains statistics about the sources of peers.
 #[derive(Deserialize, Clone, Debug)]
 pub struct PeersFrom {
     #[serde(rename="fromCache")]
@@ -184,10 +189,11 @@ pub struct PeersFrom {
     pub from_incoming: usize,
     #[serde(rename="fromPex")]
     pub from_pex: usize,
-    #[serde(rename="freomTracker")]
+    #[serde(rename="fromTracker")]
     pub from_tracker: usize
 }
 
+/// Contains information about a tracker.
 #[derive(Deserialize, Clone, Debug)]
 pub struct Tracker {
     pub announce: String,

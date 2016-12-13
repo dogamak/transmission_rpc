@@ -5,6 +5,7 @@
 #[macro_use]
 extern crate error_chain;
 extern crate hyper;
+extern crate chrono;
 
 #[macro_use]
 extern crate serde_derive;
@@ -14,18 +15,17 @@ extern crate serde;
 extern crate rustc_serialize;
 
 pub mod error;
-pub mod priority;
 pub mod requests;
 pub mod responses;
+pub mod types;
 mod torrent;
 mod field;
 
 #[cfg(test)]
 mod tests;
 
-pub use self::torrent::Torrent;
+pub use self::torrent::*;
 pub use self::field::Field;
-pub use self::priority::Priority;
 
 use error::*;
 use hyper::{Url, Client};

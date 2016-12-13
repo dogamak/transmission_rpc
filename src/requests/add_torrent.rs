@@ -84,5 +84,5 @@ impl AddTorrent {
 
 impl Request for AddTorrent {
     type Response = AddTorrentResponse;
-    const NAME: &'static str = "torrent-add";
+    fn method_name(&self) -> &'static str { "torrent-add" }
 }

@@ -1,8 +1,10 @@
 mod get_torrent;
+mod torrent_action;
 mod add_torrent;
 
 pub use self::get_torrent::GetTorrent;
 pub use self::add_torrent::AddTorrent;
+pub use self::torrent_action::TorrentAction;
 
 use serde_json::{self, Value};
 use serde::Deserialize;
@@ -15,6 +17,7 @@ pub trait Response: Sized {
 
 impl<T> Response for T where T: Deserialize {
     fn from_value(v: Value) -> Result<T> {
+        println!("{:?}", v);
         Ok(serde_json::from_value::<T>(v)?)
     }
 }
