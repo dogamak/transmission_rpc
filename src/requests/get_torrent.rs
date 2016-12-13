@@ -6,7 +6,7 @@ use super::Request;
 #[derive(Serialize, Clone)]
 pub struct GetTorrent {
     #[serde(rename="ids", skip_serializing_if="Vec::is_empty")]
-    _ids: Vec<u32>,
+    _ids: Vec<u64>,
     #[serde(rename="fields", skip_serializing_if="Vec::is_empty")]
     _fields: Vec<Field>
 }
@@ -23,13 +23,13 @@ impl GetTorrent {
     }
 
     /// Adds an torrent which's information is to fetched by it's id.
-    pub fn id(mut self, id: u32) -> Self {
+    pub fn id(mut self, id: u64) -> Self {
         self._ids.push(id);
         self
     }
 
     /// Sets the list of those torrent's ids which are to be fetched.
-    pub fn ids(mut self, ids: Vec<u32>) -> Self {
+    pub fn ids(mut self, ids: Vec<u64>) -> Self {
         self._ids = ids;
         self
     }
