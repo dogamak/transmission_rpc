@@ -15,3 +15,6 @@ serde = "*"
 serde_json = "*"
 serde_derive = "*"
 rustc-serialize = "*"
+
+[dependencies.torrent_macro]
+path = "./torrent_macro"

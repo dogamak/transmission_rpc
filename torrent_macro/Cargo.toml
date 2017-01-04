@@ -1,0 +1,15 @@
+[package]
+name = "torrent_macro"
+version = "0.1.0"
+authors = ["Mitja Karhusaari <monttu300@gmail.com>"]
+
+[lib]
+name = "torrent_macro"
+doc = true
+doctest = true
+plugin = true
+
+[dependencies]
+aster = "*"
+regex = "*"
+lazy_static = "*"

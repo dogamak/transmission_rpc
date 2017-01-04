@@ -1,5 +1,5 @@
 #![feature(proc_macro, custom_derive, custom_attribute, plugin, associated_consts)]
-
+#![plugin(torrent_macro)]
 #![recursion_limit = "1024"]
 
 #[macro_use]
@@ -19,13 +19,11 @@ pub mod requests;
 pub mod responses;
 pub mod types;
 mod torrent;
-mod field;
 
 #[cfg(test)]
 mod tests;
 
 pub use self::torrent::*;
-pub use self::field::Field;
 
 use error::*;
 use hyper::{Url, Client};

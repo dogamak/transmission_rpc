@@ -1,9 +1,12 @@
 use super::create_transmission;
 use std::io::Cursor;
 use requests::AddTorrent;
+use torrent::TorrentField;
 
 #[test]
 pub fn from_file() {
+    println!("{}", TorrentField::all()[0]);
+    
     let mut tr = create_transmission();
 
     let data = include_bytes!("./dummy.torrent");

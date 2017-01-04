@@ -1,6 +1,6 @@
 use super::create_transmission;
 use requests::GetTorrent;
-use field::Field;
+use torrent::TorrentField;
 
 #[test]
 fn get_all() {
@@ -8,9 +8,9 @@ fn get_all() {
 
     // Fetch the values of one specific value for all torrents.
     let req = GetTorrent::new()
-        .field(Field::Id)
-        .field(Field::Name)
-        .field(Field::AddedDate);
+        .field(TorrentField::Id)
+        .field(TorrentField::Name)
+        .field(TorrentField::AddedDate);
 
     let res = tr.send(&req).expect("Error while communicating with the server.");
 
@@ -24,7 +24,7 @@ fn get_all() {
     // Fetch all fields of one specific torrent.
     let req = GetTorrent::new()
         .id(first.id.unwrap())
-        .field(Field::Name);
+        .field(TorrentField::Name);
 
     let res = tr.send(&req).expect("Error while communicating with the server.");
 

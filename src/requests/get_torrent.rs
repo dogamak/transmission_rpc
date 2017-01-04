@@ -1,4 +1,4 @@
-use field::Field;
+use torrent::TorrentField;
 use responses::GetTorrent as GetTorrentResponse;
 use super::Request;
 
@@ -8,7 +8,7 @@ pub struct GetTorrent {
     #[serde(rename="ids", skip_serializing_if="Vec::is_empty")]
     _ids: Vec<u64>,
     #[serde(rename="fields", skip_serializing_if="Vec::is_empty")]
-    _fields: Vec<Field>
+    _fields: Vec<TorrentField>
 }
 
 impl GetTorrent {
@@ -35,13 +35,13 @@ impl GetTorrent {
     }
 
     /// Add an field to the list of fields that are requested.
-    pub fn field(mut self, field: Field) -> Self {
+    pub fn field(mut self, field: TorrentField) -> Self {
         self._fields.push(field);
         self
     }
 
     /// Sets the list of fields that are requested.
-    pub fn fields(mut self, fields: Vec<Field>) -> Self {
+    pub fn fields(mut self, fields: Vec<TorrentField>) -> Self {
         self._fields = fields;
         self
     }
